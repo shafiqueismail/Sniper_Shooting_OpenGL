@@ -5,6 +5,7 @@
   - Change ring on Saturn to actual model
 - Satellite model?
 - Gun physics? Destroy planets?
+- Asteroid belt / comet (advanced concept)
 
 As far as I know, we do use Phong model.
 
