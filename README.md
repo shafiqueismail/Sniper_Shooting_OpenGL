@@ -1,9 +1,9 @@
 # COMP371-P2
 # Things to implement:
 - Fix lighting on moons (no lighting behind planets)
-- Fix textures on planets? Replace with actual models?
-  - Change ring on Saturn to actual model
-- Satellite model?
+- Fix textures on planets -> flipped
+  - Change ring on Saturn to actual model?
+- Satellite models (gray)
 - Gun physics? Destroy planets?
 - Asteroid belt / comet (advanced concept)
 
