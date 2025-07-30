@@ -1,4 +1,13 @@
 # COMP371-P2
+# Things to implement:
+- Fix lighting on moons (no lighting behind planets)
+- Fix textures on planets? Replace with actual models?
+  - Change ring on Saturn to actual model
+- Satellite model?
+- Gun physics? Destroy planets?
+
+As far as I know, we do use Phong model.
+
 # Team
 Grayson Yen
 
