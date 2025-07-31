@@ -120,6 +120,8 @@
         float orbitSpeed;
         float currentAngle;
         float tiltAngle; 
+        float rotationAngle;  
+        float rotationSpeed;  
         Model model;     
         float size;
     };
@@ -463,13 +465,11 @@
 
     void loadSatelliteModels() {
         Satellite tess, quikscat;
-
-        // Temporary vectors for OBJ loading
-        std::vector<glm::vec2> temp_uvs; 
+        
+        std::vector<glm::vec2> temp_uvs;
 
         // Load TESS model
-        if (!loadOBJ("models/TESS.obj", tess.model.vertices, tess.model.normals, temp_uvs))
-        {
+        if (!loadOBJ("models/TESS.obj", tess.model.vertices, tess.model.normals, temp_uvs)) {
             std::cerr << "Failed to load TESS model" << std::endl;
         }
         tess.model.setupBuffers();
@@ -478,22 +478,30 @@
         tess.currentAngle = 0.0f;
         tess.tiltAngle = 30.0f;
         tess.size = 0.005f;
+        tess.rotationAngle = 0.5f;       // Initialize rotation
+        tess.rotationSpeed = 0.025f;      // Rotation speed (degrees per frame)
+
+        temp_uvs.clear();
 
         // Load QuikSCAT model
-        if (!loadOBJ("models/QuikSCAT.obj", quikscat.model.vertices, quikscat.model.normals, temp_uvs))
-        {
+        if (!loadOBJ("models/QuikSCAT.obj", quikscat.model.vertices, quikscat.model.normals, temp_uvs)) {
             std::cerr << "Failed to load QuikSCAT model" << std::endl;
         }
         quikscat.model.setupBuffers();
         quikscat.orbitRadius = 1.0f;
         quikscat.orbitSpeed = 0.1f;
         quikscat.currentAngle = 180.0f;
-        quikscat.tiltAngle = -15.0f; 
+        quikscat.tiltAngle = -15.0f;
         quikscat.size = 0.025f;
+        quikscat.rotationAngle = -180.0f;  // Initialize rotation
+        quikscat.rotationSpeed = 0.075f;  // Slightly different rotation speed
+
+        temp_uvs.clear();
 
         satellites.push_back(tess);
         satellites.push_back(quikscat);
     }
+
 
     void renderSatellites(const mat4 &view, const mat4 &projection, GLuint satelliteShader) {
         glUseProgram(satelliteShader);
@@ -534,23 +542,30 @@
         glUniform3fv(glGetUniformLocation(satelliteShader, "viewPos"), 1, &cameraPos[0]);
         glUniform3f(glGetUniformLocation(satelliteShader, "objectColor"), 0.7f, 0.7f, 0.7f);
 
-        for (const auto &sat : satellites)
-        {
+        for (const auto& sat : satellites) {
             mat4 model = mat4(1.0f);
             model = translate(model, sat.position);
-            model = scale(model, vec3(sat.size)); // Use the explicit size here
-
-            // Face toward Earth
+            
+            // Face toward Earth (create look-at matrix)
             vec3 toEarth = normalize(earthPos - sat.position);
             vec3 up = vec3(0.0f, 1.0f, 0.0f);
             vec3 right = normalize(cross(toEarth, up));
             up = normalize(cross(right, toEarth));
-            model *= mat4(vec4(right, 0), vec4(up, 0), vec4(-toEarth, 0), vec4(0, 0, 0, 1));
+            mat4 faceEarth = mat4(vec4(right, 0), vec4(up, 0), vec4(-toEarth, 0), vec4(0, 0, 0, 1));
+            
+            // Apply horizontal rotation (around Y-axis after facing Earth)
+            mat4 rotation = rotate(-radians(sat.rotationAngle), vec3(0, 1, 0));
+            
+            // Combine transformations: position → face Earth → rotate → scale
+            model = model * faceEarth * rotation;
+            model = scale(model, vec3(sat.size));
 
+            // Set shader uniforms
             glUniformMatrix4fv(glGetUniformLocation(satelliteShader, "model"), 1, GL_FALSE, &model[0][0]);
             glUniformMatrix4fv(glGetUniformLocation(satelliteShader, "view"), 1, GL_FALSE, &view[0][0]);
             glUniformMatrix4fv(glGetUniformLocation(satelliteShader, "projection"), 1, GL_FALSE, &projection[0][0]);
-
+            
+            // Draw satellite
             sat.model.Draw();
         }
     }
@@ -732,18 +747,24 @@
         }
     }
 
-    void updateSatellites(float deltaTime, const vec3 &earthPosition) {
-        for (auto &sat : satellites) {
+    void updateSatellites(float deltaTime, const vec3& earthPosition) {
+        for (auto& sat : satellites) {
+            // Update orbital position
             sat.currentAngle += sat.orbitSpeed * deltaTime * 60.0f;
-
+            
             // Calculate position with tilt
             float x = sat.orbitRadius * cos(radians(sat.currentAngle));
             float z = sat.orbitRadius * sin(radians(sat.currentAngle)) * cos(radians(sat.tiltAngle));
             float y = sat.orbitRadius * sin(radians(sat.currentAngle)) * sin(radians(sat.tiltAngle));
-
+            
             sat.position = earthPosition + vec3(x, y, z);
+            
+            // Update horizontal rotation (around Y-axis)
+            sat.rotationAngle += sat.rotationSpeed * deltaTime * 60.0f;
         }
     }
+
+
 
     // planet and twin sun orbits around the center
     void updatePlanets(float deltaTime)
