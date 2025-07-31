@@ -30,8 +30,8 @@
     const float MOVE_SPEED = 8.0f;
 
     // fixed window dimensions
-    const int WINDOW_WIDTH = 800;
-    const int WINDOW_HEIGHT = 600;
+    const int WINDOW_WIDTH = 1000;
+    const int WINDOW_HEIGHT = 800;
 
     // camera variables
     glm::vec3 cameraPos = glm::vec3(0.0f, 20.0f, 50.0f);
@@ -260,12 +260,12 @@
                 
                 vec3 reflectDir = reflect(-lightDir, norm);
                 float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
-                vec3 specular = 0.3 * spec * sunColors[i];
+                vec3 specular = 0.3 * spec * sunColors[i]; /// 0.3 * spec
                 
                 lighting += (diffuse + specular);
             }
             
-            FragColor = vec4(lighting * objectColor, 1.0);
+            FragColor = vec4(lighting * vec3(0.1411764706,0.1411764706,0.1411764706), 1.0); // 0.1411764706 dark grey color satellite
         }
     )glsl";
 
@@ -477,7 +477,7 @@
         tess.orbitSpeed = 0.1f;
         tess.currentAngle = 0.0f;
         tess.tiltAngle = 30.0f;
-        tess.size = 0.01f;
+        tess.size = 0.005f;
 
         // Load QuikSCAT model
         if (!loadOBJ("models/QuikSCAT.obj", quikscat.model.vertices, quikscat.model.normals, temp_uvs))
@@ -488,8 +488,8 @@
         quikscat.orbitRadius = 1.0f;
         quikscat.orbitSpeed = 0.1f;
         quikscat.currentAngle = 180.0f;
-        quikscat.tiltAngle = -15.0f;
-        quikscat.size = 0.05f;
+        quikscat.tiltAngle = -15.0f; 
+        quikscat.size = 0.025f;
 
         satellites.push_back(tess);
         satellites.push_back(quikscat);
@@ -674,7 +674,7 @@
             if (planet.orbitRadius == 27.0f)
             {
                 planet.moons.push_back({vec3(0.0f, 0.0f, 0.0f),
-                                        0.4f,
+                                        0.2f,
                                         vec3(0.7f, 0.7f, 0.7f),
                                         2.0f,
                                         0.05f,
