@@ -3,7 +3,6 @@
 - Fix lighting on moons (no lighting behind planets)
 - Fix textures on planets -> flipped
   - Change ring on Saturn to actual model?
-- Satellite models (gray -> needs textures)
 - Gun physics? Destroy planets?
 - Asteroid belt / comet (advanced concept)
 
