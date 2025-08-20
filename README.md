@@ -1,31 +1,13 @@
-# COMP371-P2
-# Things to implement:
-- Fix lighting on moons (no lighting behind planets)
-- Fix textures on planets -> flipped
-  - Change ring on Saturn to actual model?
-- Gun physics? Destroy planets?
-- Asteroid belt / comet (advanced concept)
-
-As far as I know, we do use Phong model.
-
-# Team
-Grayson Yen
-
-Anis Alouache
-
-Hassan Moharram
-
-Ismail Shafique
 
 # Setup:
 1. Download repo (Code -> Download ZIP)
 2. Launch Ubuntu
-3. Install Dependencies (**ADD REQUIREMENTS.TXT**)
+3. Install Dependencies 
 4. Run "code ." in Ubuntu terminal to launch VSCode in WSL.
 5. Unzip repo folder to WSL folder.
 6. Open and launch stars.cpp using g++ or use g++ compiler in VSCode.
 
-# Movement
+# Movement:
 W - forward
 
 A - left
@@ -39,6 +21,14 @@ Left CTRL - downwards
 Space - upwards
 
 ESC - exit
+
+C - Sniper Scope
+
+Z - Double Barrel Gun
+
+X - Grenade
+
+L - Lazer bullet
 
 # Mouse
 Camera follows mouse movement. Direction is relative to the camera, therefore movement follows where the mouse moves.
@@ -107,3 +97,15 @@ As mentioned in Planets, we calculate a planet's current position as follows:
 
 Since the planets do not travel upwards, we do not need to calculate the y-axis. 
 We take the radius of the planet, calculate its direction using its current angle (meaning, which direction the planet is moving), which then allows us to calculate where the planet will be in the next instance. We do this for every planet, moon, and sun at each moment the program is running.
+
+# Team
+Grayson Yen
+
+Anis Alouache
+
+Hassan Moharram
+
+Ismail Shafique
+
+### Bibiliography
+In terms of sources when building the code, the following were used: Google, tutorial notes and chatgpt.
