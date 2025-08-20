@@ -1,4 +1,8 @@
 
+# Images of Gameplay:
+<img width="964" height="699" alt="Screenshot 2025-08-19 at 8 57 16 PM" src="https://github.com/user-attachments/assets/9349e00b-f160-4cc7-b81a-3157df171049" />
+<img width="971" height="706" alt="Screenshot 2025-08-19 at 8 57 06 PM" src="https://github.com/user-attachments/assets/1101dbdc-6f85-452d-a26f-e3f1cd6a3edf" />
+
 # Setup:
 1. Download repo (Code -> Download ZIP)
 2. Launch Ubuntu
