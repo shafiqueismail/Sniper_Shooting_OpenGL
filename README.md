@@ -1,13 +1,4 @@
 
-# Team
-Grayson Yen
-
-Anis Alouache
-
-Hassan Moharram
-
-Ismail Shafique
-
 # Setup:
 1. Download repo (Code -> Download ZIP)
 2. Launch Ubuntu
@@ -106,6 +97,15 @@ As mentioned in Planets, we calculate a planet's current position as follows:
 
 Since the planets do not travel upwards, we do not need to calculate the y-axis. 
 We take the radius of the planet, calculate its direction using its current angle (meaning, which direction the planet is moving), which then allows us to calculate where the planet will be in the next instance. We do this for every planet, moon, and sun at each moment the program is running.
+
+# Team
+Grayson Yen
+
+Anis Alouache
+
+Hassan Moharram
+
+Ismail Shafique
 
 ### Bibiliography
 In terms of sources when building the code, the following were used: Google, tutorial notes and chatgpt.
